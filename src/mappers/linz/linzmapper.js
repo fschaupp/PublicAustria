@@ -27,8 +27,6 @@ class Linz extends API_MAPPER {
     getDataFromResponse(res) {
         let data;
 
-        console.log(res.header['content-type']);
-
         if (res.header['content-type'] && res.header['content-type'].includes('json')){
             data = res.body;
         } else {
