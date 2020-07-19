@@ -1,18 +1,29 @@
-const http = require('http');
-const express = require('express');
-
 const Linz = require('./mappers/linz/linzmapper').Linz;
 const linz = new Linz();
 
-let location = linz;
+const Wien = require('./mappers/wien/wienmapper').Wien;
+const wien = new Wien();
+
+let location = wien;
 
 async function getStations() {
     let stations = await location.getStations();
+    let unique = (array, element) => {
+        if (!array.includes(element))
+            array.push(element)
 
-    console.log(stations);
-    for(let station of stations) {
-        console.log(station);
+        return array;
     }
+
+    stations
+        .filter(station => station.location)
+        .map(station => station.location.place)
+        .reduce(unique, new Array())
+        .sort()
+        .forEach(name => {
+            console.log(name);
+        });
+
 }
 
 getStations();
